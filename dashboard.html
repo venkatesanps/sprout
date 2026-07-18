@@ -53,10 +53,10 @@
             <div style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e">Ideas to research · not advice</div>
           </div>
           <div style="display:flex;gap:8px;margin-bottom:14px;font:500 12px 'Instrument Sans',sans-serif">
-            <span style="background:#143c28;color:#f4f1ea;padding:6px 14px;border-radius:999px">All</span>
-            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Dividend</span>
-            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Value</span>
-            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Momentum</span>
+            <span onClick="{{ selectAll }}" style="background:#143c28;color:#f4f1ea;padding:6px 14px;border-radius:999px;cursor:pointer">All</span>
+            <span onClick="{{ selectDividend }}" style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px;cursor:pointer">Dividend</span>
+            <span onClick="{{ selectValue }}" style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px;cursor:pointer">Value</span>
+            <span onClick="{{ selectMomentum }}" style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px;cursor:pointer">Momentum</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ ideas }}" as="idea" hint-placeholder-count="4">
@@ -134,7 +134,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { profile: 'Balanced', quotes: {}, keySet: false, keyDraft: '', live: false };
+  state = { profile: 'Balanced', quotes: {}, keySet: false, keyDraft: '', live: false, selectedScreen: 'ALL' };
   async componentDidMount() {
     try {
       const saved = JSON.parse(localStorage.getItem('sprout.profile'));
@@ -178,18 +178,27 @@ class Component extends DCLogic {
         this.refresh(this.md.getKey());
       },
       clearKey: () => { if (this.md) this.md.setKey(''); this.setState({ keySet: false, live: false, quotes: {} }); },
+      selectAll: () => this.setState({ selectedScreen: 'ALL' }),
+      selectDividend: () => this.setState({ selectedScreen: 'DIVIDEND' }),
+      selectValue: () => this.setState({ selectedScreen: 'VALUE' }),
+      selectMomentum: () => this.setState({ selectedScreen: 'MOMENTUM' }),
       indices: [
         { name: 'S&P 500 (SPY)', val: sq.price, chg: sq.chg, color: sq.color },
         { name: 'NASDAQ (QQQ)', val: qq.price, chg: qq.chg, color: qq.color },
         { name: 'NIFTY 50 \u00b7 demo', val: '25,140.65', chg: '\u22120.3%', color: down },
         { name: 'SENSEX \u00b7 demo', val: '82,930.10', chg: '+0.1%', color: up },
       ],
-      ideas: [
-        { ticker: 'MSFT', name: 'Microsoft', screen: 'DIVIDEND', why: '5 straight years of dividend growth, payout ratio under 30%', price: ms.price, chg: ms.chg, color: ms.color },
-        { ticker: 'INFY', name: 'Infosys \u00b7 demo', screen: 'VALUE', why: 'P/E below IT-sector average, steady free cash flow', price: '\u20B91,585', chg: '\u22120.4%', color: down },
-        { ticker: 'VOO', name: 'Vanguard S&P 500 ETF', screen: 'CORE', why: 'Broad-market index fund \u2014 the usual first holding', price: vo.price, chg: vo.chg, color: vo.color },
-        { ticker: 'HDFCBANK', name: 'HDFC Bank \u00b7 demo', screen: 'DIVIDEND', why: 'Large-cap stability, consistent payout history', price: '\u20B91,720', chg: '+0.2%', color: up },
-      ],
+      ideas: (() => {
+        const allIdeas = [
+          { ticker: 'MSFT', name: 'Microsoft', screen: 'DIVIDEND', why: '5 straight years of dividend growth, payout ratio under 30%', price: ms.price, chg: ms.chg, color: ms.color },
+          { ticker: 'INFY', name: 'Infosys · demo', screen: 'VALUE', why: 'P/E below IT-sector average, steady free cash flow', price: '₹1,585', chg: '−0.4%', color: down },
+          { ticker: 'NVDA', name: 'NVIDIA · demo', screen: 'MOMENTUM', why: 'Strong recent price trend and relative strength', price: '₹2,160', chg: '+1.7%', color: up },
+          { ticker: 'VOO', name: 'Vanguard S&P 500 ETF', screen: 'CORE', why: 'Broad-market index fund — the usual first holding', price: vo.price, chg: vo.chg, color: vo.color },
+          { ticker: 'HDFCBANK', name: 'HDFC Bank · demo', screen: 'DIVIDEND', why: 'Large-cap stability, consistent payout history', price: '₹1,720', chg: '+0.2%', color: up },
+        ];
+        const selected = this.state.selectedScreen || 'ALL';
+        return selected === 'ALL' ? allIdeas : allIdeas.filter((idea) => idea.screen === selected);
+      })(),
       watchlist: [
         { ticker: 'AAPL', name: 'Apple', price: ap.price, chg: ap.chg, color: ap.color },
         { ticker: 'RELIANCE', name: 'Reliance Industries \u00b7 demo', price: '\u20B92,980', chg: '\u22120.2%', color: down },
