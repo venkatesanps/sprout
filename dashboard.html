@@ -15,11 +15,11 @@
   <div style="width:220px;flex:none;background:#143c28;color:#e8ede6;display:flex;flex-direction:column;padding:24px 0">
     <a href="index.html" style="font:600 20px 'Newsreader',serif;color:#f4f1ea;padding:0 24px 24px">Sprout</a>
     <div style="display:flex;flex-direction:column;gap:2px;font:500 14px 'Instrument Sans',sans-serif">
-      <a href="#overview" style="padding:11px 24px;background:rgba(255,255,255,.1);border-left:3px solid #7fb894;color:#fff;display:block">Overview</a>
-      <a href="#ideas-screeners" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Ideas &amp; screeners</a>
-      <a href="#watchlist" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Watchlist</a>
-      <a href="#portfolio" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">My portfolio</a>
-      <a href="#learn" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Learn</a>
+      <a href="#overview" data-nav-section="overview" style="padding:11px 24px;background:rgba(255,255,255,.1);border-left:3px solid #7fb894;color:#fff;display:block">Overview</a>
+      <a href="#ideas-screeners" data-nav-section="ideas-screeners" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Ideas &amp; screeners</a>
+      <a href="#watchlist" data-nav-section="watchlist" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Watchlist</a>
+      <a href="#portfolio" data-nav-section="portfolio" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">My portfolio</a>
+      <a href="#learn" data-nav-section="learn" style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc;display:block" style-hover="color:#fff">Learn</a>
     </div>
     <div style="margin-top:auto;padding:20px 24px;font:400 11px/1.5 'Instrument Sans',sans-serif;color:#7a9384;border-top:1px solid rgba(255,255,255,.08)">All data stored locally on this device. Educational only — not financial advice.</div>
   </div>
@@ -206,6 +206,26 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+  const navLinks = Array.from(document.querySelectorAll('[data-nav-section]'));
+  const sectionIds = ['overview', 'ideas-screeners', 'watchlist', 'portfolio', 'learn'];
+  const setActiveNav = () => {
+    const offset = window.scrollY + 140;
+    let current = 'overview';
+    sectionIds.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section && offset >= section.offsetTop) current = id;
+    });
+    navLinks.forEach((link) => {
+      const isActive = link.getAttribute('data-nav-section') === current;
+      link.style.background = isActive ? 'rgba(255,255,255,.1)' : '';
+      link.style.borderLeft = isActive ? '3px solid #7fb894' : '3px solid transparent';
+      link.style.color = isActive ? '#fff' : '#b8c9bc';
+    });
+  };
+  window.addEventListener('scroll', setActiveNav, { passive: true });
+  window.addEventListener('load', setActiveNav);
 </script>
 </body>
 </html>
