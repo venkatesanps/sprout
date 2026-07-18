@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#faf9f6;font-family:'Instrument Sans',sans-serif}a{color:#1a5c3f;text-decoration:none}a:hover{color:#0e3c28}</style>
+</helmet>
+<div style="min-height:100vh;background:#faf9f6;display:flex;flex-direction:column" data-screen-label="Risk Quiz">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 56px;border-bottom:1px solid rgba(20,60,40,.1)">
+    <a href="index.html" style="font:600 20px 'Newsreader',serif;color:#143c28">Sprout</a>
+    <div style="font:500 12px 'IBM Plex Mono',monospace;color:#8a978e">Saved only on this device</div>
+  </div>
+
+  <sc-if value="{{ showQuiz }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:64px 24px">
+      <div style="width:100%;max-width:640px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+          <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#1a5c3f;text-transform:uppercase">Question {{ qNum }} of 6</div>
+          <a href="#" onClick="{{ skipAll }}" style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e">Skip — use Balanced</a>
+        </div>
+        <div style="height:6px;background:#eef0e9;border-radius:3px;margin-bottom:36px;overflow:hidden">
+          <div style="height:100%;background:#1a5c3f;border-radius:3px;transition:width .3s;width: {{ progressPct }}"></div>
+        </div>
+        <h1 style="font:500 34px/1.2 'Newsreader',serif;color:#12281c;margin:0 0 28px;text-wrap:pretty">{{ questionText }}</h1>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ answers }}" as="ans" hint-placeholder-count="4">
+            <div onClick="{{ ans.pick }}" style="padding:18px 22px;background:#fff;border:1px solid rgba(20,60,40,.14);border-radius:12px;cursor:pointer;font:500 15px 'Instrument Sans',sans-serif;color:#22352a" style-hover="border-color:#1a5c3f;background:#f4f6ef">
+              {{ ans.label }}
+              <div style="font:400 13px 'Instrument Sans',sans-serif;color:#7a8a80;margin-top:4px">{{ ans.hint }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ canGoBack }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ goBack }}" style="display:inline-block;margin-top:24px;font:500 13px 'Instrument Sans',sans-serif;color:#7a8a80;cursor:pointer" style-hover="color:#143c28">← Back</div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showResult }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:64px 24px">
+      <div style="width:100%;max-width:640px;text-align:center">
+        <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#1a5c3f;text-transform:uppercase;margin-bottom:16px">Your investor profile</div>
+        <h1 style="font:500 52px/1.1 'Newsreader',serif;color:#12281c;margin:0 0 14px">{{ profileName }}</h1>
+        <p style="font:400 16px/1.6 'Instrument Sans',sans-serif;color:#4a5c51;max-width:480px;margin:0 auto 36px;text-wrap:pretty">{{ profileDesc }}</p>
+        <div style="background:#143c28;border-radius:16px;padding:32px;color:#e8ede6;text-align:left;max-width:480px;margin:0 auto 32px">
+          <div style="font:600 18px 'Newsreader',serif;margin-bottom:18px">Your starter mix</div>
+          <div style="display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:18px">
+            <div style="background:#7fb894;transition:width .5s;width: {{ mixIndexPct }}"></div>
+            <div style="background:#c9d8b6;transition:width .5s;width: {{ mixStockPct }}"></div>
+            <div style="background:#e8ded0;transition:width .5s;width: {{ mixBondPct }}"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;font:400 14px 'Instrument Sans',sans-serif;color:#cfdcd2">
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#7fb894">●</span> Index funds</span><span style="font-family:'IBM Plex Mono',monospace">{{ mixIndexPct }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#c9d8b6">●</span> Large-cap stocks</span><span style="font-family:'IBM Plex Mono',monospace">{{ mixStockPct }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#e8ded0">●</span> Bonds / debt funds</span><span style="font-family:'IBM Plex Mono',monospace">{{ mixBondPct }}</span></div>
+          </div>
+        </div>
+        <div style="display:inline-flex;gap:14px">
+          <a href="dashboard.html" style="background:#1a5c3f;color:#f4f1ea;padding:15px 30px;border-radius:999px;font:600 15px 'Instrument Sans',sans-serif" style-hover="background:#0e3c28">Go to my dashboard</a>
+          <span onClick="{{ retake }}" style="border:1px solid rgba(20,60,40,.28);color:#143c28;padding:15px 30px;border-radius:999px;font:600 15px 'Instrument Sans',sans-serif;cursor:pointer" style-hover="background:rgba(20,60,40,.05)">Retake</span>
+        </div>
+        <div style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e;margin-top:28px">Saved to this browser only · Educational, not financial advice</div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { q: 0, scores: [], done: false };
+  QUESTIONS = [
+    { text: 'What are you mainly investing for?', answers: [
+      ['Retirement, decades away', 'Long runway \u2014 time smooths out bumps', 3],
+      ['A big goal in 5\u201310 years', 'House, education, a business', 2],
+      ['Something in the next few years', 'Shorter timelines need more caution', 1],
+      ['Just learning for now', 'Small amounts while you find your feet', 2]]},
+    { text: 'If your investments dropped 20% in a month, you would\u2026', answers: [
+      ['Buy more \u2014 things are on sale', 'Comfortable with volatility', 3],
+      ['Hold and wait it out', 'Steady nerves', 2],
+      ['Feel anxious but probably hold', 'Normal for beginners', 1],
+      ['Sell to stop the losses', 'Safety matters most to you', 0]]},
+    { text: 'How much of your savings would you invest?', answers: [
+      ['A small slice \u2014 under 10%', 'Testing the waters', 1],
+      ['A moderate share \u2014 10\u201330%', 'Meaningful but measured', 2],
+      ['A large share \u2014 over 30%', 'High conviction, higher stakes', 3]]},
+    { text: 'Do you have an emergency fund (3\u20136 months of expenses)?', answers: [
+      ['Yes, fully set aside', 'Great foundation', 3],
+      ['Partially', 'Worth finishing first', 2],
+      ['Not yet', 'Consider building one alongside investing', 1]]},
+    { text: 'How hands-on do you want to be?', answers: [
+      ['Set it and forget it', 'Index funds do the heavy lifting', 1],
+      ['Check in monthly', 'A core mix plus a few picks', 2],
+      ['Research and pick stocks actively', 'You\u2019ll use the screeners a lot', 3]]},
+    { text: 'How would you describe your income stability?', answers: [
+      ['Very stable', 'Salaried, predictable', 3],
+      ['Somewhat variable', 'Freelance or commission-based', 2],
+      ['Unpredictable right now', 'Keep more in safe assets', 1]]},
+  ];
+  PROFILES = {
+    Cautious: { desc: 'You value stability over speed. A safety-first mix keeps most of your money in broad index funds and bonds while you learn.', mix: [45, 20, 35] },
+    Balanced: { desc: 'You can ride out normal market swings for better long-term growth. A classic core-and-explore mix suits you.', mix: [50, 30, 20] },
+    Growth: { desc: 'You have the timeline and temperament for a growth-heavy mix. Expect bigger swings \u2014 and stay diversified anyway.', mix: [45, 45, 10] },
+  };
+  componentDidMount() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('sprout.profile'));
+      if (saved && saved.name) this.setState({ done: true, savedProfile: saved.name });
+    } catch (e) {}
+  }
+  finish(scores) {
+    const total = scores.reduce((a, b) => a + b, 0);
+    const name = total <= 8 ? 'Cautious' : total <= 13 ? 'Balanced' : 'Growth';
+    localStorage.setItem('sprout.profile', JSON.stringify({ name, scores, at: Date.now() }));
+    this.setState({ done: true, savedProfile: name });
+  }
+  renderVals() {
+    const { q, scores, done, savedProfile } = this.state;
+    const cur = this.QUESTIONS[q];
+    const profName = savedProfile || 'Balanced';
+    const prof = this.PROFILES[profName];
+    return {
+      showQuiz: !done, showResult: done,
+      qNum: q + 1, progressPct: Math.round((q / 6) * 100) + '%',
+      questionText: cur ? cur.text : '',
+      answers: cur ? cur.answers.map(([label, hint, pts]) => ({
+        label, hint,
+        pick: () => {
+          const next = [...scores.slice(0, q), pts];
+          q === 5 ? this.finish(next) : this.setState({ q: q + 1, scores: next });
+        },
+      })) : [],
+      canGoBack: q > 0,
+      goBack: () => this.setState({ q: q - 1 }),
+      skipAll: (e) => { e.preventDefault(); this.finish([2, 2, 2, 2, 2, 2]); },
+      retake: () => { localStorage.removeItem('sprout.profile'); this.setState({ q: 0, scores: [], done: false, savedProfile: null }); },
+      profileName: profName, profileDesc: prof.desc,
+      mixIndexPct: prof.mix[0] + '%', mixStockPct: prof.mix[1] + '%', mixBondPct: prof.mix[2] + '%',
+    };
+  }
+}
+</script>
+</body>
+</html>

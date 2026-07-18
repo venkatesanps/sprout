@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#faf9f6;font-family:'Instrument Sans',sans-serif}a{color:#1a5c3f;text-decoration:none}a:hover{color:#0e3c28}</style>
+</helmet>
+<div style="display:flex;min-height:100vh;min-width:1200px;background:#faf9f6" data-screen-label="Dashboard">
+  <div style="width:220px;flex:none;background:#143c28;color:#e8ede6;display:flex;flex-direction:column;padding:24px 0">
+    <a href="index.html" style="font:600 20px 'Newsreader',serif;color:#f4f1ea;padding:0 24px 24px">Sprout</a>
+    <div style="display:flex;flex-direction:column;gap:2px;font:500 14px 'Instrument Sans',sans-serif">
+      <div style="padding:11px 24px;background:rgba(255,255,255,.1);border-left:3px solid #7fb894;color:#fff">Overview</div>
+      <div style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc" style-hover="color:#fff">Ideas &amp; screeners</div>
+      <div style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc" style-hover="color:#fff">Watchlist</div>
+      <div style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc" style-hover="color:#fff">My portfolio</div>
+      <div style="padding:11px 24px;border-left:3px solid transparent;color:#b8c9bc" style-hover="color:#fff">Learn</div>
+    </div>
+    <div style="margin-top:auto;padding:20px 24px;font:400 11px/1.5 'Instrument Sans',sans-serif;color:#7a9384;border-top:1px solid rgba(255,255,255,.08)">All data stored locally on this device. Educational only — not financial advice.</div>
+  </div>
+
+  <div style="flex:1;padding:28px 36px;min-width:0">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+      <div>
+        <div style="font:500 26px 'Newsreader',serif;color:#12281c">Good morning</div>
+        <div style="font:400 13px 'Instrument Sans',sans-serif;color:#7a8a80;margin-top:2px">Your profile: <span style="color:#1a5c3f;font-weight:600">{{ profile }}</span> · <a href="quiz.html" style="font-weight:500">retake quiz</a></div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <div style="font:500 11px 'IBM Plex Mono',monospace;color:#8a978e;background:#eef0e9;padding:7px 12px;border-radius:999px">{{ liveLabel }}</div>
+        <div style="background:#1a5c3f;color:#f4f1ea;padding:9px 18px;border-radius:999px;font:600 13px 'Instrument Sans',sans-serif">+ Add to watchlist</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+      <sc-for list="{{ indices }}" as="ix" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:12px;padding:16px 18px">
+          <div style="display:flex;justify-content:space-between;font:500 12px 'Instrument Sans',sans-serif;color:#7a8a80"><span>{{ ix.name }}</span><span style="font-family:'IBM Plex Mono',monospace;color: {{ ix.color }}">{{ ix.chg }}</span></div>
+          <div style="font:600 20px 'IBM Plex Mono',monospace;color:#12281c;margin-top:6px">{{ ix.val }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:22px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+            <div style="font:600 18px 'Newsreader',serif;color:#143c28">Ideas for your profile</div>
+            <div style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e">Ideas to research · not advice</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-bottom:14px;font:500 12px 'Instrument Sans',sans-serif">
+            <span style="background:#143c28;color:#f4f1ea;padding:6px 14px;border-radius:999px">All</span>
+            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Dividend</span>
+            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Value</span>
+            <span style="background:#eef0e9;color:#3d5548;padding:6px 14px;border-radius:999px">Momentum</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ ideas }}" as="idea" hint-placeholder-count="4">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:13px 16px;background:#faf9f6;border-radius:10px" style-hover="background:#eef0e9">
+                <div style="min-width:0">
+                  <div style="display:flex;gap:8px;align-items:baseline"><span style="font:600 14px 'Instrument Sans',sans-serif;color:#22352a">{{ idea.ticker }}</span><span style="font:400 13px 'Instrument Sans',sans-serif;color:#7a8a80">{{ idea.name }}</span><span style="font:500 10px 'IBM Plex Mono',monospace;color:#1a5c3f;background:rgba(26,92,63,.08);padding:2px 7px;border-radius:4px">{{ idea.screen }}</span></div>
+                  <div style="font:400 12px 'Instrument Sans',sans-serif;color:#7a8a80;margin-top:3px">{{ idea.why }}</div>
+                </div>
+                <div style="text-align:right;flex:none;padding-left:16px">
+                  <div style="font:600 14px 'IBM Plex Mono',monospace;color:#12281c">{{ idea.price }}</div>
+                  <div style="font:500 12px 'IBM Plex Mono',monospace;color: {{ idea.color }}">{{ idea.chg }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:22px 24px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px">
+            <div style="font:600 18px 'Newsreader',serif;color:#143c28">Your watchlist</div>
+            <div style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e">Stored on this device</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ watchlist }}" as="w" hint-placeholder-count="2">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border:1px solid rgba(20,60,40,.08);border-radius:10px">
+                <div style="font:600 14px 'Instrument Sans',sans-serif;color:#22352a">{{ w.ticker }} <span style="font-weight:400;color:#7a8a80">{{ w.name }}</span></div>
+                <div style="display:flex;gap:16px;align-items:center"><span style="font:600 14px 'IBM Plex Mono',monospace;color:#12281c">{{ w.price }}</span><span style="font:500 12px 'IBM Plex Mono',monospace;color: {{ w.color }}">{{ w.chg }}</span></div>
+              </div>
+            </sc-for>
+            <div style="padding:12px 16px;border:1px dashed rgba(20,60,40,.2);border-radius:10px;font:500 13px 'Instrument Sans',sans-serif;color:#7a8a80;text-align:center">+ Search any US or Indian stock to watch it</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <div style="background:#143c28;border-radius:14px;padding:22px 24px;color:#e8ede6">
+          <div style="font:600 17px 'Newsreader',serif;margin-bottom:4px">Your starter mix</div>
+          <div style="font:400 12px 'Instrument Sans',sans-serif;color:#9db5a4;margin-bottom:16px">{{ profile }} profile · model allocation</div>
+          <div style="display:flex;height:12px;border-radius:6px;overflow:hidden;margin-bottom:16px">
+            <div style="background:#7fb894;width: {{ mix.idx }}"></div><div style="background:#c9d8b6;width: {{ mix.stk }}"></div><div style="background:#e8ded0;width: {{ mix.bnd }}"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;font:400 13px 'Instrument Sans',sans-serif;color:#cfdcd2">
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#7fb894">●</span> Index funds</span><span style="font-family:'IBM Plex Mono',monospace">{{ mix.idx }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#c9d8b6">●</span> Large-cap stocks</span><span style="font-family:'IBM Plex Mono',monospace">{{ mix.stk }}</span></div>
+            <div style="display:flex;justify-content:space-between"><span><span style="color:#e8ded0">●</span> Bonds / debt funds</span><span style="font-family:'IBM Plex Mono',monospace">{{ mix.bnd }}</span></div>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:22px 24px">
+          <div style="font:600 17px 'Newsreader',serif;color:#143c28;margin-bottom:12px">Learn next</div>
+          <div style="display:flex;flex-direction:column;gap:10px;font:500 13px 'Instrument Sans',sans-serif">
+            <div style="display:flex;justify-content:space-between;padding:11px 14px;background:#faf9f6;border-radius:9px;color:#22352a">What is a P/E ratio? <span style="color:#8a978e">3 min</span></div>
+            <div style="display:flex;justify-content:space-between;padding:11px 14px;background:#faf9f6;border-radius:9px;color:#22352a">Index funds vs single stocks <span style="color:#8a978e">4 min</span></div>
+            <div style="display:flex;justify-content:space-between;padding:11px 14px;background:#faf9f6;border-radius:9px;color:#22352a">Why diversification matters <span style="color:#8a978e">3 min</span></div>
+          </div>
+        </div>
+
+        <div style="background:#eef0e9;border-radius:14px;padding:18px 20px">
+          <div style="font:600 13px 'Instrument Sans',sans-serif;color:#143c28;margin-bottom:6px">Live market data</div>
+          <sc-if value="{{ keySet }}" hint-placeholder-val="{{ false }}">
+            <div style="font:400 12px/1.6 'Instrument Sans',sans-serif;color:#4a5c51">Finnhub key connected — US quotes are live. <span onClick="{{ clearKey }}" style="color:#1a5c3f;font-weight:600;cursor:pointer">Disconnect</span></div>
+          </sc-if>
+          <sc-if value="{{ keyNotSet }}" hint-placeholder-val="{{ true }}">
+            <div style="font:400 12px/1.6 'Instrument Sans',sans-serif;color:#4a5c51;margin-bottom:10px">Paste your free <a href="https://finnhub.io" target="_blank">finnhub.io</a> API key. It is stored only in this browser.</div>
+            <div style="display:flex;gap:8px">
+              <input value="{{ keyDraft }}" onChange="{{ onKeyInput }}" placeholder="Finnhub API key" style="flex:1;min-width:0;padding:9px 12px;border:1px solid rgba(20,60,40,.2);border-radius:8px;font:400 13px 'IBM Plex Mono',monospace;color:#22352a;background:#fff;outline:none">
+              <span onClick="{{ saveKey }}" style="background:#1a5c3f;color:#f4f1ea;padding:9px 16px;border-radius:8px;font:600 13px 'Instrument Sans',sans-serif;cursor:pointer">Connect</span>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { profile: 'Balanced', quotes: {}, keySet: false, keyDraft: '', live: false };
+  async componentDidMount() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('sprout.profile'));
+      if (saved && saved.name) this.setState({ profile: saved.name });
+    } catch (e) {}
+    this.md = await import('./market-data.js');
+    const key = this.md.getKey();
+    this.setState({ keySet: !!key });
+    if (key) this.refresh(key);
+  }
+  async refresh(key) {
+    const syms = ['SPY', 'QQQ', 'MSFT', 'VOO', 'AAPL'];
+    const quotes = await this.md.fetchQuotes(syms, key);
+    this.setState({ quotes, live: Object.keys(quotes).length > 0 });
+  }
+  q(sym, demoPrice, demoChg) {
+    const lv = this.state.quotes[sym];
+    if (!lv || !this.md) return { price: demoPrice, chg: demoChg, color: demoChg.startsWith('+') ? '#1a7a4d' : '#b04a3a' };
+    return { price: this.md.fmtUsd(lv.price), chg: this.md.fmtPct(lv.chgPct), color: lv.chgPct >= 0 ? '#1a7a4d' : '#b04a3a' };
+  }
+  renderVals() {
+    const up = '#1a7a4d', down = '#b04a3a';
+    const sq = this.q('SPY', '6,412.30', '+0.8%'), qq = this.q('QQQ', '21,208.11', '+1.2%');
+    const ms = this.q('MSFT', '$512.10', '+0.6%'), vo = this.q('VOO', '$589.40', '+0.8%'), ap = this.q('AAPL', '$232.40', '+0.5%');
+    return {
+      profile: this.state.profile,
+      mix: {
+        Cautious: { idx: '45%', stk: '20%', bnd: '35%' },
+        Balanced: { idx: '50%', stk: '30%', bnd: '20%' },
+        Growth: { idx: '45%', stk: '45%', bnd: '10%' },
+      }[this.state.profile] || { idx: '50%', stk: '30%', bnd: '20%' },
+      liveLabel: this.state.live ? 'LIVE \u00b7 US quotes' : 'DEMO DATA',
+      keySet: this.state.keySet,
+      keyNotSet: !this.state.keySet,
+      keyDraft: this.state.keyDraft,
+      onKeyInput: (e) => this.setState({ keyDraft: e.target.value }),
+      saveKey: () => {
+        if (!this.md || !this.state.keyDraft.trim()) return;
+        this.md.setKey(this.state.keyDraft);
+        this.setState({ keySet: true, keyDraft: '' });
+        this.refresh(this.md.getKey());
+      },
+      clearKey: () => { if (this.md) this.md.setKey(''); this.setState({ keySet: false, live: false, quotes: {} }); },
+      indices: [
+        { name: 'S&P 500 (SPY)', val: sq.price, chg: sq.chg, color: sq.color },
+        { name: 'NASDAQ (QQQ)', val: qq.price, chg: qq.chg, color: qq.color },
+        { name: 'NIFTY 50 \u00b7 demo', val: '25,140.65', chg: '\u22120.3%', color: down },
+        { name: 'SENSEX \u00b7 demo', val: '82,930.10', chg: '+0.1%', color: up },
+      ],
+      ideas: [
+        { ticker: 'MSFT', name: 'Microsoft', screen: 'DIVIDEND', why: '5 straight years of dividend growth, payout ratio under 30%', price: ms.price, chg: ms.chg, color: ms.color },
+        { ticker: 'INFY', name: 'Infosys \u00b7 demo', screen: 'VALUE', why: 'P/E below IT-sector average, steady free cash flow', price: '\u20B91,585', chg: '\u22120.4%', color: down },
+        { ticker: 'VOO', name: 'Vanguard S&P 500 ETF', screen: 'CORE', why: 'Broad-market index fund \u2014 the usual first holding', price: vo.price, chg: vo.chg, color: vo.color },
+        { ticker: 'HDFCBANK', name: 'HDFC Bank \u00b7 demo', screen: 'DIVIDEND', why: 'Large-cap stability, consistent payout history', price: '\u20B91,720', chg: '+0.2%', color: up },
+      ],
+      watchlist: [
+        { ticker: 'AAPL', name: 'Apple', price: ap.price, chg: ap.chg, color: ap.color },
+        { ticker: 'RELIANCE', name: 'Reliance Industries \u00b7 demo', price: '\u20B92,980', chg: '\u22120.2%', color: down },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

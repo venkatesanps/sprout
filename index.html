@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#faf9f6;font-family:'Instrument Sans',sans-serif}a{color:#1a5c3f;text-decoration:none}a:hover{color:#0e3c28}</style>
+</helmet>
+<div style="min-width:1100px;background:#faf9f6" data-screen-label="Landing">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 56px;border-bottom:1px solid rgba(20,60,40,.1)">
+    <div style="font:600 20px 'Newsreader',serif;color:#143c28">Sprout</div>
+    <div style="display:flex;gap:28px;align-items:center;font:500 14px 'Instrument Sans',sans-serif;color:#3d5548">
+      <a href="#how" style="color:#3d5548">How it works</a>
+      <a href="#ideas" style="color:#3d5548">Ideas</a>
+      <a href="#privacy" style="color:#3d5548">Privacy</a>
+      <a href="quiz.html" style="background:#1a5c3f;color:#f4f1ea;padding:10px 20px;border-radius:999px;font-weight:600">Get started</a>
+    </div>
+  </div>
+
+  <div style="padding:88px 56px 64px;text-align:center">
+    <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#1a5c3f;text-transform:uppercase;margin-bottom:18px">Your data never leaves your browser</div>
+    <h1 style="font:500 60px/1.08 'Newsreader',serif;color:#12281c;max-width:720px;margin:0 auto;text-wrap:pretty">Start investing with confidence, not confusion.</h1>
+    <p style="font:400 17px/1.55 'Instrument Sans',sans-serif;color:#4a5c51;max-width:520px;margin:20px auto 32px;text-wrap:pretty">A 3-minute quiz builds your risk profile, then live US &amp; Indian market data surfaces ideas worth researching — no account, no tracking, no jargon.</p>
+    <div style="display:inline-flex;gap:14px">
+      <a href="quiz.html" style="background:#1a5c3f;color:#f4f1ea;padding:15px 30px;border-radius:999px;font:600 15px 'Instrument Sans',sans-serif" style-hover="background:#0e3c28">Take the 3-minute quiz</a>
+      <a href="dashboard.html" style="border:1px solid rgba(20,60,40,.28);color:#143c28;padding:15px 30px;border-radius:999px;font:600 15px 'Instrument Sans',sans-serif" style-hover="background:rgba(20,60,40,.05)">See the markets first</a>
+    </div>
+  </div>
+
+  <div style="display:flex;border-top:1px solid rgba(20,60,40,.1);border-bottom:1px solid rgba(20,60,40,.1);font:500 13px 'IBM Plex Mono',monospace">
+    <sc-for list="{{ tickers }}" as="t" hint-placeholder-count="4">
+      <div style="flex:1;display:flex;justify-content:space-between;padding:14px 24px;border-right:1px solid rgba(20,60,40,.08);color:#3d5548"><span>{{ t.name }}</span><span style="color: {{ t.color }}">{{ t.chg }}</span></div>
+    </sc-for>
+  </div>
+
+  <div id="how" style="padding:80px 56px;max-width:1060px;margin:0 auto">
+    <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#1a5c3f;text-transform:uppercase;margin-bottom:12px">How it works</div>
+    <h2 style="font:500 36px/1.15 'Newsreader',serif;color:#12281c;margin:0 0 40px;max-width:480px;text-wrap:pretty">From "where do I even start?" to a plan you understand.</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+      <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:28px">
+        <div style="font:500 22px 'Newsreader',serif;color:#1a5c3f;margin-bottom:12px">01</div>
+        <div style="font:600 17px 'Instrument Sans',sans-serif;color:#143c28;margin-bottom:8px">Answer 6 questions</div>
+        <div style="font:400 14px/1.6 'Instrument Sans',sans-serif;color:#4a5c51">Goals, timeline, and how you feel about risk. No sign-up — your answers stay on your device.</div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:28px">
+        <div style="font:500 22px 'Newsreader',serif;color:#1a5c3f;margin-bottom:12px">02</div>
+        <div style="font:600 17px 'Instrument Sans',sans-serif;color:#143c28;margin-bottom:8px">Get your starter mix</div>
+        <div style="font:400 14px/1.6 'Instrument Sans',sans-serif;color:#4a5c51">A model allocation for your profile — index funds, large-caps, bonds — with plain-English reasons.</div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:14px;padding:28px">
+        <div style="font:500 22px 'Newsreader',serif;color:#1a5c3f;margin-bottom:12px">03</div>
+        <div style="font:600 17px 'Instrument Sans',sans-serif;color:#143c28;margin-bottom:8px">Explore live ideas</div>
+        <div style="font:400 14px/1.6 'Instrument Sans',sans-serif;color:#4a5c51">Screeners over live US &amp; India data surface stocks matching your profile — framed as ideas to research, never orders to follow.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="ideas" style="background:#eef0e9;padding:80px 56px">
+    <div style="max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:center">
+      <div>
+        <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#1a5c3f;text-transform:uppercase;margin-bottom:12px">Ideas, not orders</div>
+        <h2 style="font:500 36px/1.15 'Newsreader',serif;color:#12281c;margin:0 0 16px;text-wrap:pretty">Every idea comes with the "why".</h2>
+        <p style="font:400 15px/1.6 'Instrument Sans',sans-serif;color:#4a5c51;margin:0 0 20px">Rule-based screeners — dividend steadiness, momentum, value — run on live quotes. Each match explains which rule it passed and what to check before you buy.</p>
+        <div style="font:400 13px/1.5 'Instrument Sans',sans-serif;color:#7a8a80;border-left:2px solid rgba(20,60,40,.2);padding-left:14px">Sprout is educational. Nothing here is financial advice — always do your own research.</div>
+      </div>
+      <div style="background:#fff;border:1px solid rgba(20,60,40,.1);border-radius:16px;padding:24px;box-shadow:0 12px 32px rgba(20,60,40,.08)">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
+          <div style="font:600 16px 'Newsreader',serif;color:#143c28">Ideas for your profile · Balanced</div>
+          <div style="font:500 11px 'IBM Plex Mono',monospace;color:#8a978e">LIVE</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ ideas }}" as="idea" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#faf9f6;border-radius:10px">
+              <div><div style="font:600 14px 'Instrument Sans',sans-serif;color:#22352a">{{ idea.ticker }} · {{ idea.name }}</div><div style="font:400 12px 'Instrument Sans',sans-serif;color:#7a8a80;margin-top:2px">{{ idea.why }}</div></div>
+              <div style="font:500 13px 'IBM Plex Mono',monospace;color: {{ idea.color }}">{{ idea.chg }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="privacy" style="padding:80px 56px;max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center">
+    <div style="background:#143c28;border-radius:16px;padding:36px;color:#e8ede6">
+      <div style="font:500 22px 'Newsreader',serif;margin-bottom:18px">What stays on your device</div>
+      <div style="display:flex;flex-direction:column;gap:12px;font:400 14px/1.5 'Instrument Sans',sans-serif;color:#b8c9bc">
+        <div style="display:flex;gap:10px"><span style="color:#7fb894">●</span>Your risk profile &amp; quiz answers</div>
+        <div style="display:flex;gap:10px"><span style="color:#7fb894">●</span>Your watchlist &amp; portfolio entries</div>
+        <div style="display:flex;gap:10px"><span style="color:#7fb894">●</span>Your API key for market data</div>
+        <div style="display:flex;gap:10px"><span style="color:#7fb894">●</span>Everything. There is no server.</div>
+      </div>
+    </div>
+    <div>
+      <div style="font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.12em;color:#1a5c3f;text-transform:uppercase;margin-bottom:12px">Private by design</div>
+      <h2 style="font:500 36px/1.15 'Newsreader',serif;color:#12281c;margin:0 0 16px;text-wrap:pretty">No account. No server. No tracking.</h2>
+      <p style="font:400 15px/1.6 'Instrument Sans',sans-serif;color:#4a5c51;margin:0">Sprout is a static site — the only network requests are the ones your browser makes for live quotes. Clear your browser data and Sprout forgets you ever existed.</p>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid rgba(20,60,40,.1);padding:64px 56px;text-align:center">
+    <h2 style="font:500 40px/1.1 'Newsreader',serif;color:#12281c;margin:0 0 24px">Ready to plant the first seed?</h2>
+    <a href="quiz.html" style="display:inline-block;background:#1a5c3f;color:#f4f1ea;padding:16px 36px;border-radius:999px;font:600 15px 'Instrument Sans',sans-serif" style-hover="background:#0e3c28">Take the quiz</a>
+    <div style="font:400 12px 'Instrument Sans',sans-serif;color:#8a978e;margin-top:40px">Sprout · Educational ideas to research, not financial advice · Data by Finnhub &amp; Yahoo Finance</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const up = '#1a7a4d', down = '#b04a3a';
+    return {
+      tickers: [
+        { name: 'S&P 500', chg: '+0.8%', color: up },
+        { name: 'NASDAQ', chg: '+1.2%', color: up },
+        { name: 'NIFTY 50', chg: '\u22120.3%', color: down },
+        { name: 'SENSEX', chg: '+0.1%', color: up },
+      ],
+      ideas: [
+        { ticker: 'MSFT', name: 'Microsoft', why: 'Passed: dividend growth 5yr straight', chg: '+0.6%', color: up },
+        { ticker: 'INFY', name: 'Infosys', why: 'Passed: value screen, P/E below sector', chg: '\u22120.4%', color: down },
+        { ticker: 'VOO', name: 'Vanguard S&P 500', why: 'Core holding for balanced profiles', chg: '+0.8%', color: up },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
